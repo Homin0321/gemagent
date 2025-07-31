@@ -76,7 +76,7 @@ To run GemAgent, execute the `adk-web` command from your terminal. **Important:*
 
 ```bash
 # Example if your agent folder is directly under your home directory:
-# cd ~/agent
+# cd ~/gemagent
 # adk-web
 ```
 
