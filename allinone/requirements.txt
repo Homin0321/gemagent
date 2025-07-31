@@ -1,0 +1,3 @@
+google-adk
+youtube-transcript-api
+python-dotenv
