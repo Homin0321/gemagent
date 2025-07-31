@@ -50,8 +50,7 @@ This highly modular design empowers each agent to dedicate its focus to a specif
 
 1.  **Clone the Repository (or download the code):**
     ```bash
-    # Example:
-    # git clone https://github.com/Homin0321/gemagent.git
+    git clone https://github.com/Homin0321/gemagent.git
     ```
 
 2.  **Install Dependencies:**
