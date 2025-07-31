@@ -72,7 +72,8 @@ To run the project, you need to configure essential environment variables.
 
 ## Usage
 
-To run GemAgent, execute the `adk-web` command from your terminal. **Important:** Ensure you run this command from the `gemagent` folder, not from within the `allinone` directory itself.
+To run GemAgent, execute the `adk-web` command from your terminal. 
+**Important:** Ensure you run this command from the `gemagent` folder, not from within the `allinone` directory itself.
 
 ```bash
 # Example if your agent folder is directly under your home directory:
