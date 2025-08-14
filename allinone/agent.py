@@ -32,26 +32,29 @@ def get_current_datetime() -> str:
 
 # Agent for handling date and time related queries.
 datetime_agent = Agent(
-    model='gemini-2.0-flash',
+    model='gemini-2.0-flash-lite',
     name='DateTimeAgent',
     instruction=datetime_instruction,
+    description="Agent for handling date and time queries",
     tools=[get_current_datetime],
 )
 
 # Agent for performing web searches using Google Search.
 search_agent = Agent(
-    model='gemini-2.0-flash',
+    model='gemini-2.0-flash-lite',
     name='SearchAgent',
     instruction=search_instruction,
+    description="Agent for performing web searches",
     tools=[google_search],
 )
 
 # Agent for interacting with the local filesystem.
 # It uses the Model-Context-Protocol (MCP) to securely manage file operations.
 filesystem_agent = Agent(
-    model='gemini-2.0-flash',
+    model='gemini-2.0-flash-lite',
     name='FileSystemAgent',
     instruction=filesystem_instruction,
+    description="Agent for interacting with the local filesystem",
     tools=[
         MCPToolset(
             connection_params=StdioServerParameters(
@@ -69,9 +72,10 @@ filesystem_agent = Agent(
 # Agent for fetching and processing content from web pages.
 # It uses an MCP server to handle the fetching process.
 fetch_agent = Agent(
-    model='gemini-2.0-flash',
+    model='gemini-2.0-flash-lite',
     name='fetch',
     instruction=fetch_instruction,
+    description="Agent for fetching content from web pages",
     tools=[
         MCPToolset(
             connection_params=StdioServerParameters(
@@ -86,9 +90,10 @@ fetch_agent = Agent(
 
 # Agent for extracting transcripts from YouTube videos.
 youtube_agent = Agent(
-    model='gemini-2.0-flash',
+    model='gemini-2.0-flash-lite',
     name='YouTubeAgent',
     instruction=youtube_instruction,
+    description="Agent for extracting transcripts from YouTube videos",
     tools=[get_youtube_transcript],
 )
 
@@ -97,7 +102,7 @@ youtube_agent = Agent(
 # It analyzes the user's request and delegates the task to the most appropriate sub-agent.
 root_agent = Agent(
     name="RootAgent",
-    model="gemini-2.0-flash",
+    model="gemini-2.5-flash",
     instruction=root_instruction,
     description="Root Agent",
     tools=[
