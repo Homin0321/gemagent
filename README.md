@@ -70,16 +70,43 @@ To run the project, you need to configure essential environment variables.
     *   `GOOGLE_API_KEY`: Your API key obtained from Google AI Studio.
     *   `FILESYSTEM_TARGET_FOLDER_PATH`: The absolute path to a local directory that the `FileSystemAgent` will have access to.
 
-## Usage
+## Running the Agent
 
-To run GemAgent, execute the `adk-web` command from your terminal. 
-**Important:** Ensure you run this command from the `gemagent` folder, not from within the `allinone` directory itself.
+The agent can be run in three different modes: web interface, CLI, or API server.
 
+### 1. Web Interface
 ```bash
-# Example if your agent folder is directly under your home directory:
-# cd ~/gemagent
-# adk-web
+adk web
 ```
+This will start the web server at http://localhost:8000. You can interact with the agent through a chat-based interface.
+
+### 2. Command Line Interface (CLI)
+```bash
+adk run allinone
+```
+This starts an interactive CLI session where you can directly communicate with the agent. Type 'exit' to quit.
+
+### 3. API Server
+```bash
+adk api_server&
+```
+This launches the API server at http://localhost:3000, allowing you to integrate the agent with other applications.
+
+### Frontend Application
+After starting the ADK API server, you can run the Streamlit frontend:
+```bash
+streamlit run app.py
+```
+
+The frontend interface provides:
+- API Server URL configuration (default: http://localhost:8000)
+- Agent name selection (default: allinone)
+- Session management controls
+- Chat interface with message history
+- Full response viewer
+
+### Note
+Make sure to start the appropriate backend (web, CLI, or API server) before launching the frontend application. The API server must be running at the configured URL for the frontend to function properly.
 
 ## License
 
