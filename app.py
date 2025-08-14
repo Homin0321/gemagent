@@ -21,55 +21,54 @@ show_full_response = st.sidebar.button("Show Full Response", width="stretch")  #
 if "session_created" not in st.session_state:
     st.session_state.session_created = False
 
-# Automatically create a session if not already created
-if not st.session_state.session_created:
-    try:
-        # If a previous session exists, delete it
-        if "session_id" in st.session_state:
-            old_session_id = st.session_state.session_id
-            delete_url = f"{api_url}/apps/{agent_name}/users/{user_id}/sessions/{old_session_id}"
-            delete_res = requests.delete(delete_url)
-            if delete_res.status_code != 204:
-                st.warning(f"Failed to delete existing session: {delete_res.status_code}")
-        # Generate a new session ID and create a new session
-        session_id = uuid.uuid4().hex
-        url = f"{api_url}/apps/{agent_name}/users/{user_id}/sessions/{session_id}"
-        res = requests.post(url)
-        if res.status_code == 200:
-            st.session_state.session_created = True
-            st.session_state.session_id = session_id
-        else:
-            st.error(f"Automatic session creation failed: {res.status_code}")
-            st.text(res.text)
-    except Exception as e:
-        st.error(f"Error during automatic session creation: {e}")
-
-# When "Create New Session" button is pressed
-if create_session_button:
+def create_new_session(api_url, agent_name, user_id):
+    """
+    Create a new session and handle the deletion of existing session.
+    Returns tuple of (success, session_id, error_message)
+    """
     try:
         # Delete previous session if it exists
         if "session_id" in st.session_state:
             old_session_id = st.session_state.session_id
             delete_url = f"{api_url}/apps/{agent_name}/users/{user_id}/sessions/{old_session_id}"
             delete_res = requests.delete(delete_url)
-            if delete_res.status_code != 204:
-                st.warning(f"Failed to delete existing session: {delete_res.status_code}")
+            # Changed to accept both 200 and 204 as successful deletion
+            if delete_res.status_code not in [200, 204]:
+                return False, None, f"Failed to delete existing session: {delete_res.status_code}"
+
         # Create a new session with a new session ID
         session_id = uuid.uuid4().hex
         url = f"{api_url}/apps/{agent_name}/users/{user_id}/sessions/{session_id}"
         res = requests.post(url)
+        
         if res.status_code == 200:
-            st.session_state.session_created = True
-            st.session_state.session_id = session_id
-            st.session_state.chat_history = []  # Clear chat history
-            if "last_response" in st.session_state:
-                del st.session_state.last_response  # Clear last response if exists
-            st.rerun()  # Refresh the Streamlit app to reset the UI
+            return True, session_id, None
         else:
-            st.error(f"Session creation failed: {res.status_code}")
-            st.text(res.text)
+            return False, None, f"Session creation failed: {res.status_code}\n{res.text}"
     except Exception as e:
-        st.error(f"JSON parsing error: {e}")
+        return False, None, f"Error during session creation: {e}"
+
+# Automatically create a session if not already created
+if not st.session_state.session_created:
+    success, session_id, error = create_new_session(api_url, agent_name, user_id)
+    if success:
+        st.session_state.session_created = True
+        st.session_state.session_id = session_id
+    else:
+        st.error(error)
+
+# When "Create New Session" button is pressed
+if create_session_button:
+    success, session_id, error = create_new_session(api_url, agent_name, user_id)
+    if success:
+        st.session_state.session_created = True
+        st.session_state.session_id = session_id
+        st.session_state.chat_history = []  # Clear chat history
+        if "last_response" in st.session_state:
+            del st.session_state.last_response  # Clear last response
+        st.rerun()  # Refresh the Streamlit app
+    else:
+        st.error(error)
 
 # Initialize chat history in session state if not present
 if "chat_history" not in st.session_state:
