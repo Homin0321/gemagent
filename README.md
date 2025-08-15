@@ -9,6 +9,7 @@ GemAgent is a **Multi-Agent System** built upon the `google-adk` framework. This
 *   **File System Operations:** Manages local files and directories, including listing files, reading file content, and more.
 *   **Fetch Web Content:** Retrieves the content of web pages from specified URLs and converts it into Markdown format.
 *   **YouTube Script Extraction:** Extracts the full text transcript from YouTube videos.
+*   **Dice Rolling:** Simulates rolling any number of six-sided dice for gaming or random number generation purposes.
 
 ## Architecture
 
@@ -32,6 +33,8 @@ GemAgent features a robust, modular architecture composed of a central orchestra
         *   **Tooling**: Functions as an ADK agent and MCP client, leveraging external tools from MCP servers distributed as Python packages (executed via `uvx`).
     *   **`YouTubeAgent`**: Extracts transcripts from YouTube videos.
         *   **Tooling**: Employs Function Tools based on Python functions, enhanced with additional modules for comprehensive functionality.
+    *   **`DiceAgent`**: Simulates rolling multiple six-sided dice.
+        *   **Tooling**: Uses a custom MCP server implemented in Python to handle dice rolling operations.
 
 This highly modular design empowers each agent to dedicate its focus to a specific domain, resulting in superior accuracy, enhanced operational efficiency, and simplified system maintenance.
 

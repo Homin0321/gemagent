@@ -1,3 +1,5 @@
 google-adk
 youtube-transcript-api
 python-dotenv
+fastmcp
+streamlit

@@ -6,7 +6,7 @@ from google.adk.tools import agent_tool
 from google.adk.tools import google_search
 from google.adk.tools.mcp_tool.mcp_toolset import MCPToolset, StdioServerParameters
 from .youtube import get_youtube_transcript
-from .instruction import root_instruction, datetime_instruction, search_instruction, filesystem_instruction, fetch_instruction, youtube_instruction 
+from .instruction import root_instruction, datetime_instruction, search_instruction, filesystem_instruction, fetch_instruction, youtube_instruction, dice_instruction 
 
 # Load environment variables from .env file
 load_dotenv()
@@ -97,6 +97,25 @@ youtube_agent = Agent(
     tools=[get_youtube_transcript],
 )
 
+# Agent for simulating dice rolls.
+# It uses an MCP server to roll virtual six-sided dice and return the results.
+dice_agent = Agent(
+    model='gemini-2.0-flash-lite',
+    name='DiceRoller',
+    instruction=dice_instruction,
+    description="Agent for rolling dice",
+    tools=[
+        MCPToolset(
+            connection_params=StdioServerParameters(
+                command='python3',
+                args=[
+                    "./mcp/dice_roller.py",
+                ],
+            ),
+        )
+    ],
+)
+
 # --- Root Agent ---
 # The main agent that orchestrates the other agents.
 # It analyzes the user's request and delegates the task to the most appropriate sub-agent.
@@ -111,5 +130,6 @@ root_agent = Agent(
         agent_tool.AgentTool(agent=filesystem_agent),
         agent_tool.AgentTool(agent=fetch_agent),
         agent_tool.AgentTool(agent=youtube_agent),
+        agent_tool.AgentTool(agent=dice_agent),
     ],
 )

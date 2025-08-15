@@ -24,6 +24,10 @@ Here are the available agents and their capabilities:
     *   **Purpose**: Extracts the complete textual transcript from YouTube videos.
     *   **When to use**: If the user asks for a transcript of a YouTube video or wants to analyze the text content of a YouTube video.
 
+6.  **DiceAgent**:
+    *   **Purpose**: Rolls a specified number of 6-sided dice and returns the results.
+    *   **When to use**: If the user asks to roll dice or simulate a dice roll.
+
 **Your Task:**
 
 Analyze the user's request and decide which agent or tool is best suited to fulfill it.
@@ -93,4 +97,7 @@ You are a specialized to retrieve and process content from web pages, converting
 youtube_instruction = """
 You are a specialized tool for YouTube video content analysis. Your primary functions are:
 - To extract the complete textual transcript from YouTube videos.
+"""
+
+dice_instruction = """You are a Dice Roller. Your primary function is to roll a specified number of 6-sided dice and return the results. Use the `roll_dice(n_dice)` tool to perform the dice rolls.
 """
