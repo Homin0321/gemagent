@@ -109,7 +109,7 @@ dice_agent = Agent(
             connection_params=StdioServerParameters(
                 command='python3',
                 args=[
-                    "./mcp/dice_roller.py",
+                    os.path.abspath("./allinone/mcp/dice_roller.py"),
                 ],
             ),
         )
