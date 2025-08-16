@@ -6,7 +6,7 @@ from google.adk.tools import agent_tool
 from google.adk.tools import google_search
 from google.adk.tools.mcp_tool.mcp_toolset import MCPToolset, StdioServerParameters
 from .youtube import get_youtube_transcript
-from .instruction import root_instruction, datetime_instruction, search_instruction, filesystem_instruction, fetch_instruction, youtube_instruction, dice_instruction 
+from .instruction import root_instruction, datetime_instruction, search_instruction, filesystem_instruction, fetch_instruction, youtube_instruction, dice_instruction, summary_instruction 
 
 # Load environment variables from .env file
 load_dotenv()
@@ -116,6 +116,14 @@ dice_agent = Agent(
     ],
 )
 
+# Agent for summarizing text content.
+summary_agent = Agent(
+    model='gemini-2.0-flash-lite',
+    name='SummaryAgent',
+    instruction=summary_instruction,
+    description="Agent for summarizing text content",
+)
+
 # --- Root Agent ---
 # The main agent that orchestrates the other agents.
 # It analyzes the user's request and delegates the task to the most appropriate sub-agent.
@@ -131,5 +139,6 @@ root_agent = Agent(
         agent_tool.AgentTool(agent=fetch_agent),
         agent_tool.AgentTool(agent=youtube_agent),
         agent_tool.AgentTool(agent=dice_agent),
+        agent_tool.AgentTool(agent=summary_agent),
     ],
 )
